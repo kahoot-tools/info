@@ -513,7 +513,9 @@ video.player{width:100%;border-radius:12px;background:#000}
 .fb-side small{color:var(--muted);font-size:12.5px}
 .btn-fb{background:#F06C8F;color:#fff;padding:12px 22px;font-size:15px;box-shadow:0 4px 14px rgba(240,108,143,.35)}
 .btn-fb:hover{background:#E4557C}
-#fbDlg{max-width:min(440px,94vw)}
+#fbDlg{max-width:min(640px,94vw)}
+.fb-frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.fb-frame iframe{display:block;width:100%;height:min(70vh,640px);border:0}
 .fb-panel{background:var(--card);border-radius:18px;padding:20px 22px;display:grid;gap:8px;color:var(--ink)}
 .fb-head{display:flex;justify-content:space-between;align-items:center;margin:-20px -22px 8px;padding:16px 22px;background:#F06C8F;color:#fff;border-radius:18px 18px 0 0}
 .fb-head b{font-size:17px}
@@ -1001,16 +1003,12 @@ footer h3{color:var(--ink)}
 </footer>
 
 <button class="totop" id="toTop" type="button" aria-label="回到頂端"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-<dialog id="fbDlg" aria-label="意見反饋"><form class="fb-panel" id="fbForm">
+<dialog id="fbDlg" aria-label="意見反饋"><div class="fb-panel">
   <div class="fb-head"><b>告訴我們您的想法</b><button type="button" class="fb-x" data-close aria-label="關閉">✕</button></div>
-  <label for="fbMsg">意見或建議</label>
-  <textarea id="fbMsg" maxlength="2000" rows="6" placeholder="請分享您的使用心得、建議或希望新增的資訊…" required></textarea>
-  <div class="fb-count"><span id="fbCount">0</span> / 2000</div>
-  <label for="fbEmail">Email（選填，方便我們回覆您）</label>
-  <input id="fbEmail" type="email" placeholder="name@example.com" autocomplete="email">
-  <p class="fb-note" id="fbNote">送出後會開啟意見表單，確認內容後按「提交」即完成。</p>
-  <button class="btn btn-fb fb-send" type="submit">送出</button>
-</form></dialog>
+  <div class="fb-frame"><iframe id="fbFrame" data-src="https://docs.google.com/forms/d/e/1FAIpQLSe8DgYAie8HViYgseAP_XsMHZ1oOv5uTvJi5FaDqrIeeH3DoQ/viewform?embedded=true" title="意見反饋表單" loading="lazy">載入中…</iframe></div>
+  <p class="fb-note">若有圖片可直接傳到小幫手官方帳號 <a class="btn btn-line" href="https://lin.ee/VGkH9Ps" target="_blank" rel="noopener" style="padding:5px 12px;font-size:12.5px;margin-left:4px">LINE 官方帳號</a></p>
+  <p class="fb-note" style="margin-top:-2px">表單沒有顯示嗎？<a href="https://docs.google.com/forms/d/e/1FAIpQLSe8DgYAie8HViYgseAP_XsMHZ1oOv5uTvJi5FaDqrIeeH3DoQ/viewform" target="_blank" rel="noopener">在新視窗開啟表單 ↗</a></p>
+</div></dialog>
 <dialog id="dlg" aria-label="說明"><div class="modal" id="dlgBody"></div><button class="totop" id="dlgTop" type="button" aria-label="回到頂端"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></dialog>
 <dialog id="lb" aria-label="圖片放大"><div class="modal single"><button class="x" data-close aria-label="關閉">×</button><div id="lbBody"></div></div></dialog>
 
@@ -1611,15 +1609,8 @@ $("#carTrack").addEventListener("scroll",()=>{const t=$("#carTrack"); const i=Ma
 let carTimer=setInterval(()=>{ if(!document.hidden && !matchMedia("(prefers-reduced-motion: reduce)").matches && location.hash==="#share" && !$("#carousel").matches(":hover")) goSlide(phIdx+1) },5000);
 renderCarousel();
 
-/* feedback — 表單建好後把網址填在 FEEDBACK_FORM；prefill 欄位：MSG_ENTRY / EMAIL_ENTRY（Google 表單「取得預先填入的連結」中的 entry.xxxx） */
-const FEEDBACK_FORM = "", MSG_ENTRY = "", EMAIL_ENTRY = "";
-$("#fbOpen").addEventListener("click",()=>$("#fbDlg").showModal());
-$("#fbMsg").addEventListener("input",()=>$("#fbCount").textContent=$("#fbMsg").value.length);
-$("#fbForm").addEventListener("submit",e=>{e.preventDefault();
-  if(!FEEDBACK_FORM){ $("#fbNote").textContent="意見表單準備中，目前請先透過 LINE 官方帳號（@791kunoo）留言給我們，謝謝！"; return }
-  const u=new URL(FEEDBACK_FORM); if(MSG_ENTRY) u.searchParams.set(MSG_ENTRY,$("#fbMsg").value); if(EMAIL_ENTRY&&$("#fbEmail").value) u.searchParams.set(EMAIL_ENTRY,$("#fbEmail").value);
-  const a=document.createElement("a"); a.href=u.toString(); a.target="_blank"; a.rel="noopener"; document.body.appendChild(a); a.click(); a.remove();
-  $("#fbNote").textContent="已開啟意見表單，請在新分頁按「提交」完成送出，謝謝您！"; });
+/* feedback: Google 表單嵌入 */
+$("#fbOpen").addEventListener("click",()=>{ const f=$("#fbFrame"); if(!f.src) f.src=f.dataset.src; $("#fbDlg").showModal() });
 
 /* 題型說明頁：在 QTINFO 補充每個題型的 text（說明文字）、imgs（圖片）、video（影片） */
 const QTINFO = {"typeans": {"imgs": [["img/qti/typeans-1.jpg", 1400, 788], ["img/qti/typeans-2.jpg", 1400, 788], ["img/qti/typeans-3.jpg", 1400, 788], ["img/qti/typeans-4.jpg", 1330, 822]]}, "poll": {"imgs": [["img/qti/poll-1.jpg", 1400, 788], ["img/qti/poll-2.jpg", 1400, 788], ["img/qti/poll-3.jpg", 1400, 788], ["img/qti/poll-4.jpg", 1400, 788], ["img/qti/poll-5.jpg", 1400, 689]]}, "pin": {"imgs": [["img/qti/pin-1.jpg", 950, 788], ["img/qti/pin-2.jpg", 1400, 788], ["img/qti/pin-3.jpg", 1326, 820], ["img/qti/pin-4.jpg", 1400, 654]]}, "puzzle": {"imgs": [["img/qti/puzzle-1.jpg", 1400, 788], ["img/qti/puzzle-2.jpg", 1315, 809], ["img/qti/puzzle-3.jpg", 1400, 651], ["img/qti/puzzle-4.jpg", 1400, 788], ["img/qti/puzzle-6.jpg", 647, 1400], ["img/qti/puzzle-5.jpg", 758, 1400]], "video": ["img/qti/puzzle.mp4", 444, 960]}, "scale": {"imgs": [["img/qti/scale-1.jpg", 1400, 788], ["img/qti/scale-2.jpg", 1400, 788], ["img/qti/scale-3.jpg", 1400, 723], ["img/qti/scale-4.jpg", 830, 443]]}, "wordcloud": {"imgs": [["img/qti/wordcloud-1.jpg", 647, 1400], ["img/qti/wordcloud-2.jpg", 1400, 788], ["img/qti/wordcloud-3.jpg", 1123, 636], ["img/qti/wordcloud-4.jpg", 1400, 1367]]}, "slider": {"imgs": [["img/qti/slider-1.jpg", 1253, 792], ["img/qti/slider-2.jpg", 1400, 780]]}, "open": {"imgs": [["img/qti/wordcloud-host.jpg", 1362, 770]]}};
