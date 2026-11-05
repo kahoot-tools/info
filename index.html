@@ -206,6 +206,9 @@ ul.clean .sub-dots li::before{transform:none;content:"";position:absolute;left:2
 .ck-box:indeterminate::after{content:"";width:10px;height:2.5px;background:var(--clay);border-radius:2px}
 .ck-items input:checked + span{color:var(--muted);text-decoration:line-through}
 .ck-all{display:flex}
+.views{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:5px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--muted);font-size:13.5px}
+.views[hidden]{display:none}
+.views b{color:var(--ink);font-variant-numeric:tabular-nums}
 .mark{background:linear-gradient(transparent 60%,var(--clay-soft) 60%);font-weight:700}
 .hl{color:var(--hl);font-weight:700}
 ul.clean{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -1004,6 +1007,7 @@ footer h3{color:var(--ink)}
       <div class="blk-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12Z"/></svg><h2>還是找不到答案？</h2></div>
       <p style="margin-top:4px">傳訊息給官方帳號小幫手，緊急情況可直接撥打通話。</p>
       <div class="line-row"><div class="lineid">LINE ID：<span id="lineIdText">@791kunoo</span><button class="copy" data-copy="@791kunoo">複製</button></div><a class="btn btn-line line-link" href="https://lin.ee/VGkH9Ps" target="_blank" rel="noopener">加入 LINE 官方帳號</a></div>
+      <p class="views" id="viewCount" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>累計瀏覽 <b id="viewNum"></b> 人次</p>
       <p style="margin-top:10px">skyeva / 羿璇（小天）製作</p>
     </div>
     <div class="fb-side">
@@ -1799,6 +1803,28 @@ document.addEventListener("click",e=>{
     try{ navigator.clipboard.writeText(txt).then(done,()=>{c.textContent=txt}) }catch(err){ c.textContent=txt }
   }
 });
+
+/* 瀏覽統計：GoatCounter（報表 https://kahoot-info.goatcounter.com） */
+window.goatcounter={no_onload:true};
+(function(){ const GC="https://kahoot-info.goatcounter.com";
+  const s=document.createElement("script"); s.async=true; s.src="https://gc.zgo.at/count.js"; s.dataset.goatcounter=GC+"/count"; document.head.appendChild(s);
+  const q=[]; const send=o=>{ if(window.goatcounter&&window.goatcounter.count) window.goatcounter.count(o); else q.push(o) };
+  const flush=()=>{ if(window.goatcounter&&window.goatcounter.count){ while(q.length) window.goatcounter.count(q.shift()) } else setTimeout(flush,400) }; flush();
+  const pageName=()=>{ const h=(location.hash||"#home").slice(1)||"home"; return h };
+  const pv=()=>send({path:"/info/"+pageName(), title:document.title});
+  pv(); window.addEventListener("hashchange",pv);
+  const ev=(name)=>send({path:"點擊／"+name.slice(0,80), title:name.slice(0,80), event:true});
+  window.gcEvent=ev;
+  document.addEventListener("click",e=>{ const el=e.target.closest("a,button,.qt-card,.try-card,.hcard"); if(!el) return;
+    if(el.matches(".swipe-btn,.car-btn,.swipe-thumbs button,.car-dots button,.fb-x,[data-close],.totop,.chev")) return;
+    const txt=(el.getAttribute("aria-label")&&!el.textContent.trim()?el.getAttribute("aria-label"):el.textContent).replace(/\s+/g," ").replace(/[→↗›‹]/g,"").trim(); if(!txt) return;
+    const sec=pageName().split("-")[0]; ev(sec+"："+txt) },true);
+  document.addEventListener("play",e=>{ if(e.target.tagName!=="VIDEO") return; const box=e.target.closest(".panel,.gv,.modal"); const h=box&&box.querySelector("h3,h2,b"); ev("播放影片："+(h?h.textContent.trim():e.target.getAttribute("src"))) },true);
+  const vc=document.getElementById("viewCount");
+  const showVC=()=>{ if(vc) vc.hidden = !(pageName()==="home" && vc.dataset.ok) };
+  fetch(GC+"/counter/TOTAL.json").then(r=>r.ok?r.json():null).then(d=>{ if(d&&d.count){ document.getElementById("viewNum").textContent=d.count; vc.dataset.ok=1; showVC() } }).catch(()=>{});
+  window.addEventListener("hashchange",showVC);
+})();
 </script>
 </body>
 </html>
