@@ -212,6 +212,9 @@ ul.clean .sub-dots li::before{transform:none;content:"";position:absolute;left:2
 .views svg{width:13px;height:13px}
 .views[hidden]{display:none}
 .views b{color:var(--ink);font-variant-numeric:tabular-nums}
+.it-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding-right:40px}
+.it-link{border:1px solid var(--line);background:var(--paper-2);color:var(--ink);border-radius:999px;padding:6px 12px;font:700 13px/1 var(--f-body);cursor:pointer}
+.it-link:hover{border-color:var(--clay)}
 .mark{background:linear-gradient(transparent 60%,var(--clay-soft) 60%);font-weight:700}
 .hl{color:var(--hl);font-weight:700}
 ul.clean{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -1291,9 +1294,9 @@ const BANKS = {"婚禮":[{"cat":"基礎題","rows":[[1,"請問今天是農曆幾
 const ITEMS = [
   {k:"試玩",d:"看看kahoot怎麼玩",wide:1,html:`<p>個人答題試玩模式，與現場同步競賽畫面不同。</p>
    <ul class="clean" style="margin-top:10px"><li>試玩模式沒有答題結算與頒獎台畫面。</li></ul>
-   <div class="try-grid try-embed"><a class="try-card" href="https://kahoot.it/challenge/04227782?challenge-id=14f5cfb3-5d4f-4cc7-9b54-054551cca6a2_1793391396897" target="_blank" rel="noopener"><img src="img/try/t1.jpg" alt="試玩範本" loading="lazy"><span class="try-cap"><b>試玩範本</b><small>一般題目示範</small><span class="go">開始試玩</span></span></a><a class="try-card" href="https://kahoot.it/challenge/05532690?challenge-id=14f5cfb3-5d4f-4cc7-9b54-054551cca6a2_1793391415429" target="_blank" rel="noopener"><img src="img/try/t2.jpg" alt="試玩範本（婚禮版）" loading="lazy"><span class="try-cap"><b>試玩範本（婚禮版）</b><small>婚禮快問快答示範</small><span class="go">開始試玩</span></span></a><a class="try-card" href="https://kahoot.it/challenge/05402551?challenge-id=14f5cfb3-5d4f-4cc7-9b54-054551cca6a2_1793391429466" target="_blank" rel="noopener"><img src="img/try/t3.jpg" alt="試玩範本（尾牙版）" loading="lazy"><span class="try-cap"><b>試玩範本（尾牙版）</b><small>尾牙春酒示範</small><span class="go">開始試玩</span></span></a></div>
-   <p style="margin-top:10px;color:var(--muted);font-size:14px">點選上方範本切換，可直接在下方試玩；也可以<a class="kg-open" href="https://kahoot.it/challenge/04227782?challenge-id=14f5cfb3-5d4f-4cc7-9b54-054551cca6a2_1793391396897" target="_blank" rel="noopener">在新視窗開啟 ↗</a>。</p>
-   <div class="kg-frame"><iframe class="kg-if" src="https://kahoot.it/challenge/04227782?challenge-id=14f5cfb3-5d4f-4cc7-9b54-054551cca6a2_1793391396897&amp;embed=true" name="kahoot-embed" scrolling="no" frameborder="0" allowfullscreen title="Kahoot 試玩"></iframe></div>`},
+   <div class="try-grid try-embed"><a class="try-card" href="https://kahoot.it/challenge/0015547017" target="_blank" rel="noopener"><img src="img/try/t1.jpg" alt="試玩範本" loading="lazy"><span class="try-cap"><b>試玩範本</b><small>一般題目示範</small><span class="go">開始試玩</span></span></a><a class="try-card" href="https://kahoot.it/challenge/006513644" target="_blank" rel="noopener"><img src="img/try/t2.jpg" alt="試玩範本（婚禮版）" loading="lazy"><span class="try-cap"><b>試玩範本（婚禮版）</b><small>婚禮快問快答示範</small><span class="go">開始試玩</span></span></a><a class="try-card" href="https://kahoot.it/challenge/009422615" target="_blank" rel="noopener"><img src="img/try/t3.jpg" alt="試玩範本（尾牙版）" loading="lazy"><span class="try-cap"><b>試玩範本（尾牙版）</b><small>尾牙春酒示範</small><span class="go">開始試玩</span></span></a></div>
+   <p style="margin-top:10px;color:var(--muted);font-size:14px">點選上方範本切換，可直接在下方試玩；也可以<a class="kg-open" href="https://kahoot.it/challenge/0015547017" target="_blank" rel="noopener">在新視窗開啟 ↗</a>。</p>
+   <div class="kg-frame"><iframe class="kg-if" src="https://kahoot.it/challenge/0015547017?embed=true" name="kahoot-embed" scrolling="no" frameborder="0" allowfullscreen title="Kahoot 試玩"></iframe></div>`},
   {k:"頒獎台",d:"最終頒獎台動畫",wide:1,html:`<p>頒獎台固定顯示前三名，第四五名會在螢幕上顯示約 5 秒，其他名次可切換至後台查看完整排名。</p>
 <div style="margin-top:14px"><b style="display:block;margin-bottom:8px">頒獎台動畫影片</b><video src="img/vid/podium.mp4" poster="img/vid/podium.jpg" controls playsinline preload="metadata" controlslist="nodownload" style="width:100%;aspect-ratio:16/9;border-radius:12px;background:#000;display:block"></video></div>
    <img class="zoom" src="img/podium.jpg" alt="頒獎台畫面：前三名與第四、五名" loading="lazy" style="margin-top:16px;width:100%;border-radius:12px;display:block">
@@ -1573,11 +1576,14 @@ const itemCard = (it,i)=> it.go ? `<a class="cardbtn" href="${it.go}"><span clas
 $("#itemGrid").innerHTML = ITEMS.map(itemCard).join("");
 $("#homeItems").innerHTML = ITEMS.map(itemCard).join("");
 document.addEventListener("click",e=>{const b=e.target.closest("button.cardbtn[data-i]"); if(b) openItem(ITEMS[b.dataset.i])});
-let curItemName="";
+const ITEM_SLUG={"試玩":"try","頒獎台":"podium","主題背景":"theme","文字雲":"wordcloud","題型":"types","投影片":"slides","影片猜歌":"video-song","方案差異":"plans","登入驗證":"login","選項參考圖":"options"};
+let curItemName="", itemPrevHash=null;
+function itemBySlug(sl){ const k=Object.keys(ITEM_SLUG).find(x=>ITEM_SLUG[x]===sl); if(!k) return null; return k==="選項參考圖"?OPT_ITEM:ITEMS.find(x=>x.k===k) }
 function openItem(it){
   curItemName=it.k;
+  const sl=ITEM_SLUG[it.k]; if(sl){ if(itemPrevHash===null) itemPrevHash=location.hash||"#home"; try{ history.replaceState(null,"","#items-"+sl) }catch(e){} }
   $("#dlgBody").className="modal"+(it.card?"":" single");
-  $("#dlgBody").innerHTML=`<button class="x" data-close aria-label="關閉">×</button><div><h2 style="font-size:30px;margin-bottom:12px">${esc(it.k)}</h2>${it.html}</div>${it.card?`<div><img class="zoom" src="img/${it.card}.jpg" alt="${esc(it.k)}原始圖卡"><p class="cap">原始圖卡（點擊放大）</p></div>`:""}`;
+  $("#dlgBody").innerHTML=`<button class="x" data-close aria-label="關閉">×</button><div><div class="it-h"><h2 style="font-size:30px">${esc(it.k)}</h2>${ITEM_SLUG[it.k]?`<button type="button" class="it-link" data-slug="${ITEM_SLUG[it.k]}">🔗 複製這頁連結</button>`:""}</div>${it.html}</div>${it.card?`<div><img class="zoom" src="img/${it.card}.jpg" alt="${esc(it.k)}原始圖卡"><p class="cap">原始圖卡（點擊放大）</p></div>`:""}`;
   $$("#dlgBody .slide-slot").forEach(s=>s.outerHTML=slideHTML(s.dataset.slide));
   initSwipe($("#dlgBody"));
   $("#dlg").showModal();
@@ -1698,7 +1704,10 @@ document.addEventListener("click",e=>{const b=e.target.closest(".kg-tab"); if(!b
     try{ const blob=await (await fetch(src)).blob(); await dl.save({filename:name,data:blob}); btn.textContent="已儲存 ✓" }
     catch(e){ btn.textContent = e&&e.code==="declined" ? old : "無法下載，請長按圖片儲存"; if(e&&(e.code==="unavailable"||e.code==="not_granted")) btn.hidden=true }
     finally{ btn.disabled=false; setTimeout(()=>{ if(!btn.hidden) btn.textContent=old },1800) } }) })();
-document.addEventListener("click",e=>{const c=e.target.closest(".try-embed .try-card"); if(!c) return; e.preventDefault(); const box=c.closest(".modal")||document; const f=box.querySelector(".kg-if"); if(f){ f.src=c.href+"&embed=true"; box.querySelectorAll(".try-card").forEach(x=>x.classList.toggle("on",x===c)); const o=box.querySelector(".kg-open"); if(o) o.href=c.href; f.scrollIntoView({behavior:"smooth",block:"nearest"}) } });
+document.addEventListener("click",e=>{const c=e.target.closest(".try-embed .try-card"); if(!c) return; e.preventDefault(); const box=c.closest(".modal")||document; const f=box.querySelector(".kg-if"); if(f){ f.src=c.href+(c.href.includes("?")?"&":"?")+"embed=true"; box.querySelectorAll(".try-card").forEach(x=>x.classList.toggle("on",x===c)); const o=box.querySelector(".kg-open"); if(o) o.href=c.href; f.scrollIntoView({behavior:"smooth",block:"nearest"}) } });
+$("#dlg").addEventListener("close",()=>{ if(itemPrevHash!==null){ const h=itemPrevHash; itemPrevHash=null; if(/^#items-/.test(location.hash)){ try{ history.replaceState(null,"",h) }catch(e){} } } });
+document.addEventListener("click",e=>{ const b=e.target.closest(".it-link"); if(!b) return; const url=location.origin+location.pathname+"#items-"+b.dataset.slug; const done=()=>{ const t=b.textContent; b.textContent="✓ 已複製連結"; setTimeout(()=>b.textContent=t,1500) };
+  if(navigator.clipboard) navigator.clipboard.writeText(url).then(done,()=>{ prompt("複製這個連結：",url) }); else prompt("複製這個連結：",url) });
 const toTop=$("#toTop");
 window.addEventListener("scroll",()=>toTop.classList.toggle("show",window.scrollY>500),{passive:true});
 const dlgTop=$("#dlgTop"), dlgBody=$("#dlgBody");
@@ -1756,13 +1765,15 @@ function route(){
   if(page==="faq"){ sub=sub||"account"; showFaq(sub) }
   if(page==="guide"){ sub=sub||"video"; showGuide(sub) }
   if(page==="make"){ sub=sub||"ghost"; showMake(sub) }
+  const deepItem = page==="items" && sub ? itemBySlug(sub) : null;
   const full=sub?`${page}-${sub}`:page;
   $$("[data-nav]").forEach(a=>a.classList.toggle("on",a.dataset.nav===page));
   $$("[data-sub]").forEach(a=>{ if(a.tagName==="A") a.classList.toggle("on",a.dataset.sub===full) });
   const restore=pendingRestore; pendingRestore=null;
   if(restore!=null) requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo({top:restore}))); else window.scrollTo({top:0});
   $$(".backbtn").forEach(b=>b.hidden = page==="home");
-  $("#dlg").open && $("#dlg").close();
+  if($("#dlg").open){ itemPrevHash=null; $("#dlg").close() }
+  if(deepItem){ itemPrevHash="#items"; openItem(deepItem) }
 }
 /* back: remember where each page was scrolled, return there */
 const NAVSTACK=[]; let curHash=location.hash||"#home", lastY=0, pendingRestore=null, goingBack=false;
