@@ -1583,7 +1583,7 @@ function openItem(it){
   curItemName=it.k;
   const sl=ITEM_SLUG[it.k]; if(sl){ if(itemPrevHash===null) itemPrevHash=location.hash||"#home"; try{ history.replaceState(null,"","#items-"+sl) }catch(e){} }
   $("#dlgBody").className="modal"+(it.card?"":" single");
-  $("#dlgBody").innerHTML=`<button class="x" data-close aria-label="關閉">×</button><div><div class="it-h"><h2 style="font-size:30px">${esc(it.k)}</h2>${ITEM_SLUG[it.k]?`<button type="button" class="it-link" data-slug="${ITEM_SLUG[it.k]}">🔗 複製這頁連結</button>`:""}</div>${it.html}</div>${it.card?`<div><img class="zoom" src="img/${it.card}.jpg" alt="${esc(it.k)}原始圖卡"><p class="cap">原始圖卡（點擊放大）</p></div>`:""}`;
+  $("#dlgBody").innerHTML=`<button class="x" data-close aria-label="關閉">×</button><div><div class="it-h"><h2 style="font-size:30px">${esc(it.k)}</h2></div>${it.html}</div>${it.card?`<div><img class="zoom" src="img/${it.card}.jpg" alt="${esc(it.k)}原始圖卡"><p class="cap">原始圖卡（點擊放大）</p></div>`:""}`;
   $$("#dlgBody .slide-slot").forEach(s=>s.outerHTML=slideHTML(s.dataset.slide));
   initSwipe($("#dlgBody"));
   $("#dlg").showModal();
