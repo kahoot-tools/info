@@ -1838,7 +1838,7 @@ window.goatcounter={no_onload:true};
   document.addEventListener("play",e=>{ if(e.target.tagName!=="VIDEO") return; const box=e.target.closest(".panel,.gv,.modal"); const h=box&&box.querySelector("h3,h2,b"); ev("播放影片："+(h?h.textContent.trim():e.target.getAttribute("src"))) },true);
   const vc=document.getElementById("viewCount");
   const showVC=()=>{ if(vc) vc.hidden = !(pageName()==="home" && vc.dataset.ok) };
-  fetch(GC+"/counter/TOTAL.json").then(r=>r.ok?r.json():null).then(d=>{ if(d&&d.count){ document.getElementById("viewNum").textContent=d.count; vc.dataset.ok=1; showVC() } }).catch(()=>{});
+  fetch(GC+"/counter/TOTAL.json").then(r=>r.ok?r.json():null).then(d=>{ if(d&&d.count){ document.getElementById("viewNum").textContent=(+String(d.count).replace(/\D/g,"")).toLocaleString("en-US"); vc.dataset.ok=1; showVC() } }).catch(()=>{});
   window.addEventListener("hashchange",showVC);
 })();
 </script>
