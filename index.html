@@ -176,6 +176,13 @@ ul.clean .sub-dots li::before{transform:none;content:"";position:absolute;left:2
 .faq-img img{display:block}
 .faq .a .faq-swipe .swipe-label{color:#4a2a8a}
 .swipe-track img.zoom{cursor:default}
+.chaps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.chap{display:flex;align-items:center;gap:10px;text-align:left;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);font:inherit;font-size:14px;color:var(--ink);cursor:pointer;transition:background .15s,border-color .15s}
+.chap:hover{border-color:var(--purple)}
+.chap.on{background:var(--purple-soft);border-color:var(--purple)}
+.chap-t{flex:none;font-variant-numeric:tabular-nums;font-weight:700;color:var(--purple);background:var(--purple-soft);padding:2px 8px;border-radius:999px;font-size:13px}
+.chap.on .chap-t{background:var(--card)}
+@media(max-width:560px){.chaps{grid-template-columns:1fr}}
 [data-sub="transfer"] .swipe-track img.zoom,[data-sub="self"] .swipe-track img.zoom,[data-page="qrcode"] .swipe-track img.zoom{cursor:zoom-in}
 .nl-swipe+.swipe-thumbs{margin:0;max-width:640px}
 .gv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -831,13 +838,15 @@ footer h3{color:var(--ink)}
           </ul>
           <p class="note" style="margin-top:10px"><b>請不要輸入帳號或 mail 分享！</b>請依下方步驟操作。</p></div>
         <div class="panel">
+          <h3>題目轉移操作教學影片</h3>
+          <video class="player" id="tfVideo" src="img/tf/transfer-v2.mp4" poster="img/tf/transfer-v2.jpg" controls playsinline preload="metadata" controlslist="nodownload" style="margin-top:12px;width:100%;aspect-ratio:16/9;border-radius:12px;background:#000;display:block"></video>
+          <p style="color:var(--muted);font-size:14px;margin-top:12px">點選時間可直接跳到該段：</p>
+          <div class="chaps"><button type="button" class="chap" data-t="8"><span class="chap-t">00:08</span><span>電腦版｜題目分享連結</span></button><button type="button" class="chap" data-t="27"><span class="chap-t">00:27</span><span>電腦版｜群組分享連結</span></button><button type="button" class="chap" data-t="52"><span class="chap-t">00:52</span><span>手機瀏覽器｜題目分享連結</span></button><button type="button" class="chap" data-t="64"><span class="chap-t">01:04</span><span>手機瀏覽器｜群組分享連結</span></button><button type="button" class="chap" data-t="92"><span class="chap-t">01:32</span><span>手機APP｜題目分享連結</span></button><button type="button" class="chap" data-t="106"><span class="chap-t">01:46</span><span>手機APP｜群組分享連結</span></button></div>
+        </div>
+        <div class="panel">
           <h3>題目轉移方式</h3>
           <p style="color:var(--muted);font-size:14px;margin-top:4px">方法 1：分享連結／方法 2：群組連結，擇一提供即可。</p>
           <div class="swipe" data-swipe style="margin-top:14px"><div class="swipe-track"><img class="zoom" src="img/tf/tf1.jpg" alt="題目轉移方式圖卡 1" loading="lazy"><img class="zoom" src="img/tf/tf2.jpg" alt="題目轉移方式圖卡 2" loading="lazy"><img class="zoom" src="img/tf/tf3.jpg" alt="題目轉移方式圖卡 3" loading="lazy"><img class="zoom" src="img/tf/tf4.jpg" alt="題目轉移方式圖卡 4" loading="lazy"><img class="zoom" src="img/tf/tf5.jpg" alt="題目轉移方式圖卡 5" loading="lazy"><img class="zoom" src="img/tf/tf6.jpg" alt="題目轉移方式圖卡 6" loading="lazy"><img class="zoom" src="img/tf/tf7.jpg" alt="題目轉移方式圖卡 7" loading="lazy"><img class="zoom" src="img/tf/tf8.jpg" alt="題目轉移方式圖卡 8" loading="lazy"><img class="zoom" src="img/tf/tf9.jpg" alt="題目轉移方式圖卡 9" loading="lazy"></div><button type="button" class="swipe-btn prev" aria-label="上一張">‹</button><button type="button" class="swipe-btn next" aria-label="下一張">›</button><div class="swipe-count"></div></div>
-        </div>
-        <div class="panel">
-          <h3>題目轉移操作教學影片</h3>
-          <video class="player" src="img/tf/transfer.mp4" controls playsinline preload="metadata" controlslist="nodownload" style="margin-top:12px;width:100%;aspect-ratio:1280/672;border-radius:12px;background:#000;display:block"></video>
         </div>
         <div class="panel">
           <h3>轉移題目注意事項</h3>
@@ -1596,6 +1605,12 @@ function openItem(it){
   initSwipe($("#dlgBody"));
   $("#dlg").showModal();
 }
+
+/* transfer video chapters */
+(function(){ const v=document.getElementById("tfVideo"); if(!v) return; const bs=[...document.querySelectorAll(".chap")];
+  bs.forEach(b=>b.addEventListener("click",()=>{ v.currentTime=+b.dataset.t; const p=v.play(); if(p&&p.catch) p.catch(()=>{}); }));
+  v.addEventListener("timeupdate",()=>{ const t=v.currentTime; let k=-1; bs.forEach((b,i)=>{ if(t>=+b.dataset.t-0.3) k=i }); bs.forEach((b,i)=>b.classList.toggle("on",i===k)) });
+})();
 
 /* videos */
 $("#vidGrid").innerHTML = [...new Set(VIDEOS.map(v=>v.g))].map(g=>`<h3 class="sub vid-g">■ ${esc(g)}</h3><div class="vids">${VIDEOS.filter(v=>v.g===g).map(v=>{ const i=VIDEOS.indexOf(v);
