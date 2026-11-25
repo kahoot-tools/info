@@ -794,23 +794,28 @@ footer h3{color:var(--ink)}
       <div class="stack">
         <div class="panel">
           <h3>代做題目（附贈服務）</h3>
-          <p style="margin-top:8px">提供題目內容（題目／選項／答案／圖片），幫您先在 Kahoot 上建立好，收到帳號可以直接測試或遊玩。</p>
+          <p style="margin-top:8px">提供題目內容（題目／選項／答案／圖片），幫您先在 Kahoot 上建立好，收到帳號可以直接編輯測試或遊玩。</p>
           <ul class="clean" style="margin-top:10px">
-            <li>需使用<span class="mark">檔案模版（Excel）</span>給檔，其餘格式可支付 $100 編輯費由這邊轉檔處理。</li>
+            <li>提供<span class="mark">題目製作編輯器</span>使用，支援文字或檔案轉格式、上傳圖片、預覽畫面等，編輯完成後可導出給小幫手。</li>
             <li>工作天 2–3 天（不含例假日），依給檔順序安排，<b>最晚於租借起始日前三天</b>提供。例：租借 10/10–10/12，最晚 10/7 提供。</li>
             <li>製作完成（給試玩連結後）提供<span class="mark">免費修改兩次</span>，或收到帳號後自行調整。</li>
-            <li>若要使用文字雲（留言牆）可在檔案內備註（打上要顯示的文字），<b>不會主動添加</b>。</li>
+            <li>若要使用文字雲（留言牆）可在檔案內新增或另外告知，<b>不會主動添加</b>。</li>
           </ul>
           <div class="fee">
-            <div><b>$100</b>非模版格式轉檔編輯費</div>
             <div><b>+$100</b>兩天內給檔急件費</div>
             <div><b>+$200</b>一天內給檔急件費</div>
+            <div><b>+$300</b>假日（六日）及國定假日急件費</div>
           </div>
         </div>
         <div class="panel">
-          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h3>代做題目檔案模版</h3><a class="btn btn-clay" href="https://docs.google.com/spreadsheets/d/1Hk-9J-bou6bViWSsuzEX98QiIiOPV0AL/edit?usp=sharing&amp;ouid=105742057794428825111&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">開啟檔案模版 ↗</a></div>
-          <p style="color:var(--muted);font-size:14px;margin-top:6px">請建立複本或下載後編輯，完成後回傳。</p>
-          <img class="zoom" src="img/template.jpg" alt="檔案模板固定格式 Excel 檔" loading="lazy" style="margin-top:14px;width:100%;max-width:760px;display:block;border-radius:12px">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h3>Kahoot題目製作編輯器</h3><a class="btn btn-clay" href="https://kahoot-tools.github.io/editor/" target="_blank" rel="noopener">開啟連結 ↗</a></div>
+          <p style="color:var(--muted);font-size:14px;margin-top:6px">製作完成後可導出 Excel 或 ZIP 檔傳給小幫手。</p>
+          <img class="zoom" src="img/editor-card.jpg" alt="Kahoot 題目製作編輯器：上傳檔案、挑選題庫、貼上文字或載入範本、直接編輯" loading="lazy" style="margin-top:14px;width:100%;max-width:760px;display:block;border-radius:12px">
+        </div>
+        <div class="panel">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><h3>參考檔案模板格式</h3><a class="btn btn-clay" href="https://docs.google.com/spreadsheets/d/1Hk-9J-bou6bViWSsuzEX98QiIiOPV0AL/edit?usp=sharing&amp;ouid=105742057794428825111&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">開啟檔案模版 ↗</a></div>
+          <p style="color:var(--muted);font-size:14px;margin-top:6px">可參考此格式整理題目，不一定要用這個檔案給檔；使用模版請建立複本或下載後編輯。</p>
+          <img class="zoom" src="img/template-v2.jpg" alt="Excel 檔參考格式" loading="lazy" style="margin-top:14px;width:100%;max-width:760px;display:block;border-radius:12px">
         </div>
         <div class="panel">
           <h3>官方帳號傳檔方式</h3>
@@ -1110,7 +1115,7 @@ const FAQ = {
 ],
 [
 "代做題目需要提供什麼資料？",
-"基本題目內容需包含標題、答題秒數、題目、選項、答案、（圖片可有可無），依檔案模版格式編輯。",
+"基本題目內容需包含標題、答題秒數、題目、選項、答案、（圖片可有可無），可使用題目製作編輯器整理後導出，或參考檔案模板格式。",
 "BTN:查看代做題目|#make-ghost"
 ],
 [
@@ -1473,7 +1478,7 @@ const shp = i => `<svg class="shp" aria-hidden="true"><use href="#${SH[i%4]}"/><
 
 const FAQ_KEYS = {"帳號相關":"account","題目相關":"quiz","遊戲相關":"game","遊戲設定":"settings"};
 const GUIDE_SUBS = [["video","示範影片","主控台與玩家畫面操作示範"],["login","登入後台","開啟網站、驗證、找資料夾"],["edit","編輯題目","標題設定與編輯畫面"],["play","開始遊戲","實況主持、等待大廳、答題、頒獎台"],["phone","玩家教學","玩家加入與作答畫面"],["text","文字教學","完整遊戲流程"]];
-const MAKE_SUBS = [["ghost","代做題目","檔案模版、收檔方式"],["transfer","轉移題目","分享連結、群組共享"],["self","自行編輯","租借期間自行建立題目"],["notes","題目設定注意事項","題目檔需包含的內容與限制"]];
+const MAKE_SUBS = [["ghost","代做題目","題目編輯器、收檔方式"],["transfer","轉移題目","分享連結、群組共享"],["self","自行編輯","租借期間自行建立題目"],["notes","題目設定注意事項","題目檔需包含的內容與限制"]];
 const NAV = [
   {id:"faq",t:"常見問答",d:"",subs:Object.entries(FAQ_KEYS).map(([n,k])=>[k,n,(FAQ[n]||[]).length?`${FAQ[n].length} 題`:"建議設定"])},
   {id:"guide",t:"操作教學",d:"",subs:GUIDE_SUBS},
